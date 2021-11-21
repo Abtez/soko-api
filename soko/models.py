@@ -35,8 +35,8 @@ INTERNAL_FINISHES = (
 
 SUPERSTRUCTURE = (
     ('Glass', 'GATES'),
-    ('Openings', 'LANDSCAPING'),
-    ('Railing', 'FENCES'),
+    ('Openings', 'OPENINGS'),
+    ('Railing', 'RAILINGS'),
 )
 
 
@@ -58,8 +58,8 @@ TYPES =(
 )
 
 CONDITIONS =(    
-    ('New', 'BUY'),
-    ('Used', 'RENT'), 
+    ('New', 'NEW'),
+    ('Used', 'USED'), 
     ('Manufacturer Refurbished', 'MANUFACTURER REFURBISHED'), 
     ('For Parts & Not Working', 'FOR PARTS & NOT WORKING'), 
 )
@@ -90,7 +90,7 @@ class VendorProfile(models.Model):
         return self.user.username
     
     def save_image(self):
-        self.save()
+        self.save()      
         
     def delete_image(self):
         self.delete()
@@ -108,10 +108,11 @@ class VendorProfile(models.Model):
         cls.objects.filter(id=id).update(avatar=value)
 
 @receiver(post_save, sender=User)
-def update_user_profile(sender, instance, created, **kwargs):
+def create_user_profile(sender, instance, created, **kwargs):
     if created:
         VendorProfile.objects.create(user=instance)
-    instance.profile.save()
+
+post_save.connect(create_user_profile, sender=User)
     
 
 class Product(models.Model):
@@ -173,7 +174,7 @@ class Review(models.Model):
 class Wishlist(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_profile')# here CASCADE is the behavior to adopt when the referenced object(because it is a foreign key) is deleted. it is not specific to django,this is an sql standard.
     wished_item = models.ForeignKey(Product,on_delete=models.CASCADE)
-    slug = models.CharField(max_length=30,null=True,blank=True)
+    # slug = models.CharField(max_length=30,null=True,blank=True)
     added_date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
