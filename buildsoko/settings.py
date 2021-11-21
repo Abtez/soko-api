@@ -42,7 +42,7 @@ MODE=os.getenv("MODE", default="dev")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv('DEBUG')
 
-ALLOWED_HOSTS='.localhost', '.herokuapp.com', '.127.0.0.1','buildsoko.herokuapp.com'
+ALLOWED_HOSTS = '*'
 
 if config('MODE')=="dev":
    DATABASES = {
