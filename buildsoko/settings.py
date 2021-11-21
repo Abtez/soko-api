@@ -19,11 +19,10 @@ import dj_database_url
 import cloudinary
 import cloudinary.uploader
 import cloudinary.api
-import django_heroku
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 load_dotenv()
-django_heroku.settings(locals())
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -43,7 +42,7 @@ MODE=os.getenv("MODE", default="dev")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv('DEBUG')
 
-ALLOWED_HOSTS='.localhost', '.herokuapp.com', '.127.0.0.1'
+ALLOWED_HOSTS='.localhost', '.herokuapp.com', '.127.0.0.1','buildsoko.herokuapp.com'
 
 if config('MODE')=="dev":
    DATABASES = {
