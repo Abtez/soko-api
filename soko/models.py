@@ -71,7 +71,7 @@ GENDER = (
 )
 
 class VendorProfile(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='profile')
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
     business_name = models.CharField(max_length=150, null=True, blank=True)
     phone_number = PhoneNumberField(null = True, blank = True)
     gender = models.CharField(choices=GENDER, max_length=55)
@@ -155,6 +155,7 @@ class Product(models.Model):
 
 class Rating(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='product_ratings')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, default=1, related_name='rater_user')
     score = models.IntegerField(default=0, validators= [MaxValueValidator(5), MinValueValidator(1)])
     
     def __str__(self):
